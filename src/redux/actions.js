@@ -14,6 +14,13 @@ export const searchFilterTodo = (text)=> {
     }
 }
 
+export const toggleTodoStatus = (todoId) => {
+    return{
+        type: 'todoList/toggleTodoStatus',
+        payload: todoId
+    }
+}
+
 export const statusFilterChange =(status) => {
     return{
         type:'filter/statusFilterChange',

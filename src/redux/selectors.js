@@ -25,7 +25,9 @@ export const todoRemainingSelector = createSelector(
             }
             return (
                 todo.name.includes(searchText) && 
-                (status === "Completed" ? todo.completed : !todo.completed)
+                (status === "Completed" ? todo.completed : !todo.completed
+                && (priority.length ? priority.includes(todo.priority) : true)
+                )
             )
             
         });
