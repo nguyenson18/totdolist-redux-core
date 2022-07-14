@@ -1,29 +1,33 @@
 import { Col, Row, Input, Typography, Radio, Select, Tag } from 'antd';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux/es/exports';
-import { priorityFilterChange, searchFilterTodo, statusFilterChange } from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+// import { priorityFilterChange, searchFilterTodo, statusFilterChange } from '../../redux/actions';
+import filterSlice from './filterSlice'
+
 
 const { Search } = Input;
 
 export default function Filters() {
   const [searchTodo, setSearchTodo] = useState("")
-  const [filterStatus, setFilterStatus] = useState("All")
-  const [filterPriorities, setFilterPriorities] = useState([])
+  const [statusTodo, setStatusTodo] = useState("All")
+  const [priorityTodo, setPriorityTodo] = useState([])
+
+
+  // dispatch
   const dispatch = useDispatch()
 
-  const handleSearchChange =(e)=> {
+  const handleSearchChange = (e) => {
     setSearchTodo(e.target.value)
-    dispatch(searchFilterTodo(e.target.value))
+    dispatch(filterSlice.actions.searchFilterTodo(e.target.value))
+  } 
+  
+  const handleStatusChange = (e)=> {
+    setStatusTodo(e.target.value)
+    dispatch(filterSlice.actions.statusFilterChange(e.target.value))
   }
-
-  const handleStatusChange=(e)=>{
-    setFilterStatus(e.target.value)
-    dispatch(statusFilterChange(e.target.value))
-  }
-
-  const handlePriorityChange = (value) => {
-    setFilterPriorities(value)
-    dispatch(priorityFilterChange(value))
+  const handlePriorityChange = (value)=> {
+    setPriorityTodo(value)
+    dispatch(filterSlice.actions.priorityFilterChange(value))
   }
   return (
     <Row justify='center'>
@@ -41,7 +45,7 @@ export default function Filters() {
         >
           Filter By Status
         </Typography.Paragraph>
-        <Radio.Group value={filterStatus} onChange={handleStatusChange}>
+        <Radio.Group value={statusTodo} onChange={handleStatusChange}>
           <Radio value='All'>All</Radio>
           <Radio value='Completed'>Completed</Radio>
           <Radio value='Todo'>To do</Radio>
@@ -58,7 +62,7 @@ export default function Filters() {
           allowClear
           placeholder='Please select'
           style={{ width: '100%' }}
-          value={filterPriorities}
+          value={priorityTodo}
           onChange={handlePriorityChange}
         >
           <Select.Option value='High' label='High'>
